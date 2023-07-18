@@ -21,12 +21,15 @@ def on_connect(client, userdata, flags, rc):
 # The callback for when a PUBLISH message is received from the server.
 def on_message(client, userdata, msg):
     global lounge_temp
-    global lounge_status
     data = str(msg.payload.decode("utf-8"))
     jsonData=json.loads(data)    
     temp = jsonData["temperature"]
     hum = jsonData["humidity"]
     batt = jsonData["battery"]
+    print(data)
+    print(temp)
+    print(hum)
+    print(batt)
     mqtt_helper.publish_message(temp, hum, batt)
     mqtt_helper.publish_status()
 
