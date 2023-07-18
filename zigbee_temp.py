@@ -26,10 +26,6 @@ def on_message(client, userdata, msg):
     temp = jsonData["temperature"]
     hum = jsonData["humidity"]
     batt = jsonData["battery"]
-    print(data)
-    print(temp)
-    print(hum)
-    print(batt)
     mqtt_helper.publish_message(temp, hum, batt)
     mqtt_helper.publish_status()
 
