@@ -21,14 +21,22 @@ def on_connect(client, userdata, flags, rc):
 # The callback for when a PUBLISH message is received from the server.
 def on_message(client, userdata, msg):
     global lounge_temp
-    data = str(msg.payload.decode("utf-8"))
-    jsonData=json.loads(data)    
-    temp = jsonData["temperature"]
-    hum = jsonData["humidity"]
-    batt = jsonData["battery"]
-    mqtt_helper.publish_message(temp, hum, batt)
-    mqtt_helper.publish_status()
+    
+    try: 
+        data = msg.payload.decode("utf-8")
+        jsonData=json.loads(data)    
+        temp = jsonData["temperature"]
+        hum = jsonData["humidity"]
+        batt = jsonData["battery"]
+        mqtt_helper.publish_message(temp, hum, batt)
+        mqtt_helper.publish_status()
 
+    except Exception as e:
+        print("Couldn't parse raw data: %s" % data, e)
+
+    else:
+        mqtt_helper.publish_message(temp, hum, batt)
+        mqtt_helper.publish_status()        
 
 client1 = mqtt.Client()
 client1.on_connect = on_connect
