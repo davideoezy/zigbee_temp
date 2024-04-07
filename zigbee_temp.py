@@ -33,10 +33,7 @@ def on_message(client, userdata, msg):
 
     except Exception as e:
         print("Couldn't parse raw data: %s" % data, e)
-
-    else:
-        mqtt_helper.publish_message(temp, hum, batt)
-        mqtt_helper.publish_status()        
+    
 
 client1 = mqtt.Client()
 client1.on_connect = on_connect
